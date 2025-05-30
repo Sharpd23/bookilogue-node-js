@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="padding: 20px; max-width: 800px; margin: 20px auto;">
+        <h1>Welcome to the Review Website!</h1>
+        <p>This is where you can see and add reviews.</p>
+
+        <section id="reviews">
+            <h2>Recent Reviews</h2>
+            <% if (reviews && reviews.length > 0) { %>
+                <div class="review-list">
+                    <% reviews.forEach(review => { %>
+                        <div class="review-item">
+                            <h3><%= review.title %></h3>
+                            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+                            <p><%= review.comment %></p>
+                            <small>By: <%= review.author %> on <%= new Date(review.created_at).toLocaleDateString() %></small>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p>No reviews yet. Be the first to add one!</p>
+            <% } %>
+        </section>
+
+        <section id="add-review" style="margin-top: 40px;">
+            <h2>Add Your Review</h2>
+            <form action="/add-review" method="POST" class="review-form">
+                <div class="form-group">
+                    <label for="title">Review Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Your Name:</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating (1-5):</label>
+                    <input type="number" id="rating" name="rating" min="1" max="5" required>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Your Review:</label>
+                    <textarea id="comment" name="comment" rows="5" required></textarea>
+                </div>
+                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;">Submit Review</button>
+            </form>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
